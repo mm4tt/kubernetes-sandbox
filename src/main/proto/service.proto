@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.mmat.proto";
+
+package service;
+
+// Test message.
+message TestPB {
+    int64 id = 1;
+    string value = 2;
+}
