@@ -1,5 +1,6 @@
 package com.mmat.server;
 
+import com.google.inject.Guice;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 
@@ -12,7 +13,7 @@ import java.util.logging.Logger;
 public class ServerApp {
   private static final Logger logger = Logger.getLogger(ServerApp.class.getName());
 
-  private static final int PORT = 50001;
+  public static final int PORT = 50001;
 
   private Server server;
 
@@ -20,7 +21,7 @@ public class ServerApp {
    * Main launches the server from the command line.
    */
   public static void main(String[] args) throws IOException, InterruptedException {
-    final ServerApp server = new ServerApp();
+    final ServerApp server = Guice.createInjector().getInstance(ServerApp.class);
     server.start().blockUntilShutdown();
   }
 
