@@ -2,42 +2,58 @@ group 'com.mmat'
 version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
-apply plugin: 'idea'
 apply plugin: 'com.google.protobuf'
 
-
 buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.1'
-    }
+  repositories {
+    mavenCentral()
+  }
+  dependencies {
+    classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.1'
+  }
 }
 
 repositories {
-    mavenCentral()
-    mavenLocal()
+  mavenCentral()
+  mavenLocal()
 }
+
+def grpcVersion = '1.1.2'
 
 protobuf {
-    // Configure the protoc executable
-    protoc {
-        // Download from repositories
-        artifact = 'com.google.protobuf:protoc:3.0.0'
+  // Configure the protoc executable
+  protoc {
+    // Download from repositories
+    artifact = 'com.google.protobuf:protoc:3.0.0'
+  }
+  plugins {
+    grpc {
+      artifact = "io.grpc:protoc-gen-grpc-java:${grpcVersion}"
     }
-}
-
-idea {
-    module {
-        sourceDirs += file("${protobuf.generatedFilesBaseDir}/main/java");
-        // If you have additional sourceSets and/or codegen plugins, add all of them
-        sourceDirs += file("${protobuf.generatedFilesBaseDir}/main/grpc");
+  }
+  generateProtoTasks {
+    all()*.plugins {
+      grpc {
+        // TODO(mmat): Check if this is needed.
+        option 'enable_deprecated=false'
+      }
     }
+  }
 }
 
 dependencies {
-    compile 'com.google.protobuf:protobuf-java:3.0.0'
+  compile 'com.google.protobuf:protobuf-java:3.0.0'
+  compile "io.grpc:grpc-netty:${grpcVersion}"
+  compile "io.grpc:grpc-protobuf:${grpcVersion}"
+  compile "io.grpc:grpc-stub:${grpcVersion}"
 
-    testCompile group: 'junit', name: 'junit', version: '4.11'
+  testCompile group: 'junit', name: 'junit', version: '4.11'
+}
+
+apply plugin: 'idea'
+idea {
+  module {
+    sourceDirs += file("${protobuf.generatedFilesBaseDir}/main/java");
+    sourceDirs += file("${protobuf.generatedFilesBaseDir}/main/grpc");
+  }
 }

@@ -5,8 +5,16 @@ option java_package = "com.mmat.proto";
 
 package service;
 
-// Test message.
-message TestPB {
-    int64 id = 1;
-    string value = 2;
+service SimpleService {
+    rpc SayHello (HelloRequest) returns (HelloReply) {}
+}
+
+// The request message containing the frontend name.
+message HelloRequest {
+  string name = 1;
+}
+
+// The response message containing the greetings from backend.
+message HelloReply {
+  string message = 1;
 }
