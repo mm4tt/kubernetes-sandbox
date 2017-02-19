@@ -5,10 +5,13 @@ import com.mmat.proto.HelloRequest;
 import com.mmat.proto.SimpleServiceGrpc;
 import io.grpc.stub.StreamObserver;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 /**
  * Service implementation.
  */
-public class ServiceImpl extends SimpleServiceGrpc.SimpleServiceImplBase {
+class ServiceImpl extends SimpleServiceGrpc.SimpleServiceImplBase {
   @Override
   public void sayHello(HelloRequest request, StreamObserver<HelloReply> responseObserver) {
     responseObserver.onNext(HelloReply.newBuilder()
@@ -21,7 +24,10 @@ public class ServiceImpl extends SimpleServiceGrpc.SimpleServiceImplBase {
   }
 
   private String getServerName() {
-    // TODO: implement basing on the host name.
-    return "Server";
+    try {
+      return InetAddress.getLocalHost().getHostName();
+    } catch (UnknownHostException e) {
+      return "unknown host";
+    }
   }
 }
