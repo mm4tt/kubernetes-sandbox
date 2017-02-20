@@ -1,0 +1,4 @@
+FROM openjdk:8
+COPY build/libs/Backend-1.0.jar .
+EXPOSE 50001
+CMD ["java", "-jar", "Backend-1.0.jar"]

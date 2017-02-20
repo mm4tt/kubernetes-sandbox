@@ -9,7 +9,7 @@ import com.mmat.server.ServerApp;
  */
 public class ClientModule extends AbstractModule {
   // TODO: Provide a way to pass these via flags or config file.
-  private static String SERVER_HOST = "localhost";
+  private static String SERVER_HOST = "backend";
   private static int SERVER_PORT = ServerApp.PORT;
 
   @Override

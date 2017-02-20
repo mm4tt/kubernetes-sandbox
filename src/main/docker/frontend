@@ -1,0 +1,4 @@
+FROM openjdk:8
+COPY build/libs/Frontend-1.0.jar .
+EXPOSE 8080
+CMD ["java", "-jar", "Frontend-1.0.jar"]
