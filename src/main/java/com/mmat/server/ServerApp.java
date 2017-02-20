@@ -18,7 +18,7 @@ public class ServerApp {
   private Server server;
 
   /**
-   * Main launches the server from the command line.
+   * Launches the server.
    */
   public static void main(String[] args) throws IOException, InterruptedException {
     final ServerApp server = Guice.createInjector().getInstance(ServerApp.class);
