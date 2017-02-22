@@ -36,7 +36,8 @@ public class SimpleServlet extends HttpServlet {
     }
 
     writer.println("<h1>Pulp Frontend</h2>");
-    writer.format("<h2>%s</h2>", backendMessage);
+    writer.format("<h2>Hello this is %s</h2>", getHostName());
+    writer.format("<h2>Backend says: %s</h2>", backendMessage);
   }
 
   private String getHostName() {

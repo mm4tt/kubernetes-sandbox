@@ -7,3 +7,5 @@ docker run -p 8080:8080 --link backend:backend frontend
 #Clean up
 docker stop backend
 docker rm backend
+
+

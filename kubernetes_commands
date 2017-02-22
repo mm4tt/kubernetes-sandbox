@@ -1,0 +1,13 @@
+docker build -f src/main/docker/backend -t mateuszmatejczyk/backend .
+docker push mateuszmatejczyk/backend
+
+docker build -f src/main/docker/frontend -t mateuszmatejczyk/frontend .
+docker push mateuszmatejczyk/frontend
+
+
+kubectl run frontend --image=docker.io/mateuszmatejczyk/frontend --port 8080 --replicas=3
+kubectl expose deployment frontend --port 80 --target-port=8080 --type=LoadBalancer
+
+kubectl run backend --image=docker.io/mateuszmatejczyk/backend --port 50001 --replicas=3
+kubectl expose deployment backend --port 50001 --target-port=50001 --type=ClusterIP
+
