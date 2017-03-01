@@ -34,7 +34,7 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: docker.io/mateuszmatejczyk/frontend
+        image: gcr.io/docker-sandbox-144501/frontend
         ports:
         - containerPort: 8080
 ---
@@ -51,6 +51,6 @@ spec:
     spec:
       containers:
       - name: backend
-        image: docker.io/mateuszmatejczyk/backend
+        image: gcr.io/docker-sandbox-144501/backend
         ports:
         - containerPort: 50001
