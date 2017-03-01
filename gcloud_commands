@@ -1,0 +1,7 @@
+gcloud config set compute/zone us-east1-c
+
+gcloud container clusters create example-cluster
+
+gcloud auth application-default login
+
+gcloud container clusters get-credentials test-cluster
