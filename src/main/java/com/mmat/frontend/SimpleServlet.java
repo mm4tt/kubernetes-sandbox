@@ -2,6 +2,8 @@ package com.mmat.frontend;
 
 import com.google.inject.Inject;
 import com.mmat.client.Client;
+import com.mmat.log.LoggerFactory;
+import org.slf4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -16,6 +18,8 @@ import java.net.UnknownHostException;
  * Simple servlet rendering the frontend page.
  */
 public class SimpleServlet extends HttpServlet {
+  private static final Logger logger = LoggerFactory.getLogger();
+
   private final Client backendClient;
 
   @Inject
@@ -27,12 +31,13 @@ public class SimpleServlet extends HttpServlet {
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
     PrintWriter writer = response.getWriter();
+    logger.info("Procesing doGetRequest.");
 
     String backendMessage;
     try {
       backendMessage = backendClient.greet(getHostName());
     } catch (Exception e) {
-      backendMessage = "Unable to contact backend.";
+      backendMessage = "Unable to contact backend: " + e;
     }
 
     writer.println("<h1>Pulp Frontend</h2>");
