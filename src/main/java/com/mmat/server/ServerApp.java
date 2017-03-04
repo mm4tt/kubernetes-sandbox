@@ -29,7 +29,8 @@ public class ServerApp {
    * Launches the server.
    */
   public static void main(String[] args) throws IOException, InterruptedException {
-    final ServerApp server = Guice.createInjector().getInstance(ServerApp.class);
+    final ServerApp server = Guice.createInjector(new ServerModule())
+        .getInstance(ServerApp.class);
     server.start().blockUntilShutdown();
   }
 

@@ -2,4 +2,4 @@ docker pull crate
 
 docker run -P -d crate
 docker run -P -d crate
-docker run -d -p 4200:4200 -p 4300:4300 crate
+docker run -d -p 4200:4200 -p 4300:4300 -p 5432:5432 crate

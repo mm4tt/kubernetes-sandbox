@@ -18,6 +18,8 @@ spec:
     name: web
   - port: 4300
     name: cluster
+  - port: 5432
+    name: jdbc
   type: ClusterIP
   selector:
     app: crate
@@ -56,6 +58,8 @@ spec:
           name: db
         - containerPort: 4300
           name: cluster
+        - containerPort: 5432
+          name: jdbc
         env:
         # Half the available memory.
         - name: CRATE_HEAP_SIZE

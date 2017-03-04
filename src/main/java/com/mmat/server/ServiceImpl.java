@@ -9,6 +9,7 @@ import io.grpc.stub.StreamObserver;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.sql.SQLException;
 
 /**
  * Service implementation.
@@ -23,13 +24,17 @@ class ServiceImpl extends SimpleServiceGrpc.SimpleServiceImplBase {
 
   @Override
   public void sayHello(HelloRequest request, StreamObserver<HelloReply> responseObserver) {
-    responseObserver.onNext(HelloReply.newBuilder()
-        .setMessage(String.format(
-            "Hello frontend %s, this is backend %s speaking<br />Pulp value is: %s",
-            request.getName(),
-            getServerName(),
-            storage.getAndIncrement()))
-        .build());
+    try {
+      responseObserver.onNext(HelloReply.newBuilder()
+          .setMessage(String.format(
+              "Hello frontend %s, this is backend %s speaking<br />Pulp value is: %s",
+              request.getName(),
+              getServerName(),
+              storage.getAndIncrement()))
+          .build());
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
     responseObserver.onCompleted();
   }
 

@@ -3,8 +3,10 @@ package com.mmat.storage;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
-import io.crate.client.CrateClient;
-import io.crate.shade.org.elasticsearch.common.settings.Settings;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 /**
  * Guice module for app storage.
@@ -16,11 +18,7 @@ public class StorageModule extends AbstractModule {
 
   @Provides
   @Singleton
-  CrateClient provideCrateClient() {
-    return new CrateClient(
-        Settings.settingsBuilder()
-            .put("cluster.name", "PulpCluster")
-            .build(),
-        "crate:4300");
+  Connection provideCrateConnection() throws SQLException {
+    return DriverManager.getConnection("crate://crate:5432/");
   }
 }
