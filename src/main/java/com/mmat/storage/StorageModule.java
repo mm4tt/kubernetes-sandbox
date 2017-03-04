@@ -19,7 +19,7 @@ public class StorageModule extends AbstractModule {
   CrateClient provideCrateClient() {
     return new CrateClient(
         Settings.settingsBuilder()
-            .put("cluster.name", "my-crate-cluster")
+            .put("cluster.name", "PulpCluster")
             .build(),
         "crate:4300");
   }
