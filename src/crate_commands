@@ -1,0 +1,5 @@
+docker pull crate
+
+docker run -P -d crate
+docker run -P -d crate
+docker run -d -p 4200:4200 -p 4300:4300 crate

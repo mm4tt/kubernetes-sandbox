@@ -1,6 +1,7 @@
 package com.mmat.server;
 
 import com.google.inject.Guice;
+import com.google.inject.Inject;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 
@@ -15,7 +16,14 @@ public class ServerApp {
 
   public static final int PORT = 50001;
 
+  private final ServiceImpl service;
+
   private Server server;
+
+  @Inject
+  public ServerApp(ServiceImpl service) {
+    this.service = service;
+  }
 
   /**
    * Launches the server.
@@ -27,7 +35,7 @@ public class ServerApp {
 
   private ServerApp start() throws IOException {
     server = ServerBuilder.forPort(PORT)
-        .addService(new ServiceImpl())
+        .addService(service)
         .build().start();
     logger.info("ServerApp started, listening on " + PORT);
     Runtime.getRuntime().addShutdownHook(new Thread(() -> {

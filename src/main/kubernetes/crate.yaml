@@ -1,0 +1,76 @@
+apiVersion: storage.k8s.io/v1beta1
+kind: StorageClass
+metadata:
+  name: standard
+provisioner: kubernetes.io/gce-pd
+parameters:
+  type: pd-standard
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: crate
+  labels:
+    app: crate
+spec:
+  ports:
+  - port: 4200
+    name: web
+  - port: 4300
+    name: cluster
+  type: ClusterIP
+  selector:
+    app: crate
+---
+apiVersion: "apps/v1beta1"
+kind: StatefulSet
+metadata:
+  name: crate
+spec:
+  serviceName: "crate-db"
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: crate
+    spec:
+      containers:
+      - name: crate
+        image: crate:latest
+        command:
+          - /docker-entrypoint.sh
+          - -Des.cluster.name=${CLUSTER_NAME}
+          - -Des.discovery.type=srv
+          - -Des.discovery.zen.minimum_master_nodes=2
+          - -Des.gateway.recover_after_nodes=2
+          - -Des.gateway.expected_nodes=${EXPECTED_NODES}
+          - -Des.discovery.srv.query=_cluster._tcp.crate.default.svc.cluster.local
+        volumeMounts:
+            - mountPath: /data
+              name: data
+        resources:
+          limits:
+            memory: 2Gi
+        ports:
+        - containerPort: 4200
+          name: db
+        - containerPort: 4300
+          name: cluster
+        env:
+        # Half the available memory.
+        - name: CRATE_HEAP_SIZE
+          value: "1g"
+        - name: EXPECTED_NODES
+          value: "3"
+        - name: CLUSTER_NAME
+          value: "PulpCluster"
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+        annotations:
+          volume.alpha.kubernetes.io/storage-class: standard
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 1Gi

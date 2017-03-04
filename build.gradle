@@ -15,6 +15,9 @@ buildscript {
 
 repositories {
   mavenCentral()
+  maven {
+    url "https://dl.bintray.com/crate/crate/"
+  }
   mavenLocal()
 }
 
@@ -47,6 +50,7 @@ dependencies {
   compile "io.grpc:grpc-protobuf:${grpcVersion}"
   compile "io.grpc:grpc-stub:${grpcVersion}"
   compile group: 'com.google.inject', name: 'guice', version: '3.0'
+  compile group: 'io.crate', name: 'crate-client', version: '0.57.6'
   compile group: 'org.eclipse.jetty', name: 'jetty-server', version: '9.4.0.RC3'
   compile group: 'org.eclipse.jetty', name: 'jetty-servlet', version: '9.4.0.RC3'
 
