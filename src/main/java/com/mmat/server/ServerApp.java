@@ -2,17 +2,21 @@ package com.mmat.server;
 
 import com.google.inject.Guice;
 import com.google.inject.Inject;
+import com.google.inject.Injector;
+import com.mmat.log.LoggerFactory;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
+import io.netty.util.internal.logging.InternalLoggerFactory;
+import io.netty.util.internal.logging.Log4JLoggerFactory;
+import org.slf4j.Logger;
 
 import java.io.IOException;
-import java.util.logging.Logger;
 
 /**
  * ServerApp entrypoint.
  */
 public class ServerApp {
-  private static final Logger logger = Logger.getLogger(ServerApp.class.getName());
+  private static final Logger logger = LoggerFactory.getLogger();
 
   public static final int PORT = 50001;
 
@@ -29,9 +33,14 @@ public class ServerApp {
    * Launches the server.
    */
   public static void main(String[] args) throws IOException, InterruptedException {
-    final ServerApp server = Guice.createInjector(new ServerModule())
-        .getInstance(ServerApp.class);
-    server.start().blockUntilShutdown();
+    Injector injector = Guice.createInjector(new ServerModule());
+    try {
+      final ServerApp server = injector.getInstance(ServerApp.class);
+      server.start().blockUntilShutdown();
+    } catch (Throwable t) {
+      t.printStackTrace();
+    }
+
   }
 
   private ServerApp start() throws IOException {

@@ -1,8 +1,14 @@
 package com.mmat.log;
 
 import org.slf4j.Logger;
+import org.slf4j.bridge.SLF4JBridgeHandler;
 
-public class LoggerFactory {
+public final class LoggerFactory {
+  static {
+    SLF4JBridgeHandler.removeHandlersForRootLogger();
+    SLF4JBridgeHandler.install();
+  }
+
   public static Logger getLogger() {
     return org.slf4j.LoggerFactory.getLogger(getCallerClassName());
   }

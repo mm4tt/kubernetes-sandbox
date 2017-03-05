@@ -1,18 +1,18 @@
 package com.mmat.client;
 
+import com.mmat.log.LoggerFactory;
 import com.mmat.proto.HelloReply;
 import com.mmat.proto.HelloRequest;
 import com.mmat.proto.SimpleServiceGrpc;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
-
-import java.util.logging.Logger;
+import org.slf4j.Logger;
 
 /**
  * Implementation of the {@link Client}.
  */
 class ClientImpl implements Client {
-  private static final Logger logger = Logger.getLogger(ClientImpl.class.getName());
+  private static final Logger logger = LoggerFactory.getLogger();
 
   private final ManagedChannel channel;
   private final SimpleServiceGrpc.SimpleServiceBlockingStub blockingStub;
