@@ -24,7 +24,7 @@ spec:
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: frontened
+  name: frontend
 spec:
   replicas: 3
   template:
