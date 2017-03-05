@@ -31,7 +31,7 @@ public class SimpleServlet extends HttpServlet {
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
     PrintWriter writer = response.getWriter();
-    logger.info("Procesing doGetRequest.");
+    logger.info("Procesing doGetRequest: {}", request.getRequestURI());
 
     String backendMessage;
     try {

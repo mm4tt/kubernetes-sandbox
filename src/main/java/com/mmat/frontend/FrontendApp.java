@@ -4,6 +4,7 @@ import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.mmat.client.ClientModule;
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 
@@ -25,7 +26,8 @@ public class FrontendApp {
     context.setContextPath("/");
     server.setHandler(context);
 
-    context.addServlet(new ServletHolder(servlet), "/*");
+    context.addServlet(new ServletHolder(servlet), "/");
+    context.addServlet(new ServletHolder(new DefaultServlet()), "/favicon.ico");
 
     server.start();
     server.join();
